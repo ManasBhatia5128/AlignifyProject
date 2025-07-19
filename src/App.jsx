@@ -153,13 +153,32 @@ Respond in JSON with keys: review, ai_rating, ats_score, suggestions (array), sp
             <div className="mb-2 animate-fade-in delay-400">
               <span className="font-semibold text-purple-600">Suggestions:</span>
               <ul className="list-disc ml-6 mt-1">
-                {reviewResult.suggestions?.map((s, i) => (
-                  <li key={i} className="transition-all duration-300 hover:bg-purple-100 rounded px-2 py-1 animate-fade-in delay-500" style={{ animationDelay: `${500 + i * 100}ms` }}>
-                    {typeof s === 'string'
-                      ? s
-                      : `Replace: ${s.replace} With: ${s.with}`}
-                  </li>
-                ))}
+                {reviewResult.suggestions?.map((s, i) => {
+                  let suggestionText;
+                  if (typeof s === 'string') {
+                    suggestionText = s;
+                  } else if (
+                    s &&
+                    typeof s === 'object' &&
+                    'replace' in s &&
+                    'with' in s &&
+                    s.replace &&
+                    s.with
+                  ) {
+                    suggestionText = `Replace: ${s.replace} With: ${s.with}`;
+                  } else {
+                    suggestionText = typeof s === 'object' ? JSON.stringify(s) : 'Invalid suggestion format';
+                  }
+                  return (
+                    <li
+                      key={i}
+                      className="transition-all duration-300 hover:bg-purple-100 rounded px-2 py-1 animate-fade-in delay-500"
+                      style={{ animationDelay: `${500 + i * 100}ms` }}
+                    >
+                      {suggestionText}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
             <div className="animate-fade-in delay-500">
