@@ -1,0 +1,29 @@
+/* Background image layer behind the app content */
+.bg-image {
+	position: fixed;
+	inset: 0;
+	z-index: -20;
+	background-image: url('./assets/office.jpg');
+	background-size: cover;
+	background-position: center;
+	filter: blur(8px) brightness(0.65);
+	transform: scale(1.03);
+}
+
+/* Optional dark overlay on top of the image to improve contrast */
+.bg-image::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.12);
+}
+
+/* Main card uses a translucent background with a slight backdrop blur */
+.main-card {
+	background-color: rgba(255, 255, 255, 0.32);
+	-webkit-backdrop-filter: blur(4px) saturate(120%);
+	backdrop-filter: blur(4px) saturate(120%);
+}
+
+/* Small helper to ensure content stays above the background */
+.app-root { position: relative; z-index: 10; }
